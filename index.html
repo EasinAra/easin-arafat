@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easin Arafat — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --sky: #5c94fc; --ground: #e86a17; --dark: #0f0f1a;
+  --coin: #ffd700; --white: #fffef0; --red: #e63946;
+  --green: #2ec551; --pixel: 'Press Start 2P', monospace; --body: 'Inter', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--dark); color: var(--white); font-family: var(--body); overflow-x: hidden; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--ground); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(15,15,26,0.95); border-bottom: 3px solid var(--ground);
+  padding: 0 2.5rem; display: flex; align-items: center;
+  justify-content: space-between; height: 56px;
+}
+.nav-logo { font-family: var(--pixel); font-size: 0.65rem; color: var(--coin); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-family: var(--pixel); font-size: 0.42rem; color: var(--white); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--coin); }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  background: linear-gradient(to bottom,#5c94fc 0%,#9dc4ff 58%,#5c94fc 58%,#5c94fc 68%,#e8c88a 68%,#c8a05a 80%,#8b5e24 100%);
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 2rem 0; position: relative; overflow: hidden;
+}
+.hills {
+  position: absolute; bottom: 29%; left: 0; right: 0; height: 60px;
+  background: var(--green);
+  clip-path: polygon(0 100%,0 60%,5% 40%,10% 20%,15% 40%,20% 60%,25% 40%,35% 10%,45% 40%,50% 60%,55% 30%,65% 10%,75% 30%,80% 60%,85% 40%,90% 20%,95% 40%,100% 60%,100% 100%);
+}
+.pipe { position: absolute; bottom: 28%; width: 40px; }
+.pipe-body { background: #00a800; width: 100%; }
+.pipe-head { background: #00c800; width: 110%; margin-left: -5%; height: 12px; }
+.pipe-1 { left: 10%; } .pipe-1 .pipe-body { height: 60px; }
+.pipe-2 { right: 18%; } .pipe-2 .pipe-body { height: 80px; }
+.block {
+  position: absolute; width: 32px; height: 32px;
+  background: #c8860a; border: 3px solid #8b5e00;
+  box-shadow: inset -3px -3px 0 #8b5e00, inset 3px 3px 0 #ffc840;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--pixel); font-size: 0.65rem; cursor: pointer;
+  animation: float 3s ease-in-out infinite; user-select: none;
+}
+.block-1 { top: 35%; left: 26%; animation-delay: 0s; }
+.block-2 { top: 29%; left: 44%; animation-delay: 0.5s; }
+.block-3 { top: 35%; left: 60%; animation-delay: 1s; }
+.coin-pop {
+  position: fixed; font-family: var(--pixel); font-size: 0.5rem;
+  color: var(--coin); pointer-events: none;
+  animation: coinAnim 0.8s ease-out forwards; z-index: 9999;
+}
+.mario-hero {
+  position: absolute; bottom: 28.5%; left: 18%;
+  width: 32px; height: 48px; z-index: 10;
+}
+.hero-text { text-align: center; z-index: 5; position: relative; top: -50px; }
+.hero-tag {
+  font-family: var(--pixel); font-size: 0.42rem;
+  background: var(--coin); color: var(--dark);
+  padding: 0.5rem 1rem; display: inline-block;
+  margin-bottom: 1.5rem; animation: blink 2s step-end infinite;
+}
+.hero-name {
+  font-family: var(--pixel); font-size: clamp(1.4rem,4.5vw,2.8rem);
+  color: var(--white); text-shadow: 4px 4px 0 #000; line-height: 1.5; margin-bottom: 1rem;
+}
+.hero-name span { color: var(--coin); }
+.hero-sub { font-family: var(--pixel); font-size: clamp(0.38rem,1.3vw,0.55rem); color: rgba(255,255,255,0.85); line-height: 2.2; margin-bottom: 2rem; }
+.hero-btn {
+  display: inline-block; font-family: var(--pixel); font-size: 0.55rem;
+  background: var(--red); color: white; padding: 0.9rem 2rem;
+  text-decoration: none; border-bottom: 4px solid #9b1b25;
+  letter-spacing: 0.05em; transition: transform 0.1s, border-bottom 0.1s; cursor: pointer;
+}
+.hero-btn:hover { transform: translateY(2px); border-bottom-width: 2px; }
+.scroll-hint {
+  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  font-family: var(--pixel); font-size: 0.38rem; color: white; animation: blink 1.2s step-end infinite;
+}
+
+/* PIXEL DIVIDER */
+.pixel-divider { height: 8px; background: repeating-linear-gradient(90deg, var(--ground) 0 16px, var(--coin) 16px 32px); }
+
+/* SECTION SHARED */
+section { padding: 6rem 4rem; }
+.section-eyebrow { font-family: var(--pixel); font-size: 0.48rem; color: var(--coin); letter-spacing: 0.12em; margin-bottom: 0.8rem; }
+.section-title { font-family: var(--pixel); font-size: clamp(0.8rem,2.2vw,1.3rem); line-height: 1.8; color: var(--white); margin-bottom: 3rem; }
+
+/* ABOUT */
+#about { background: #1a1a2e; }
+.about-inner { max-width: 980px; margin: 0 auto; display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: start; }
+.avatar-frame { background: var(--sky); border: 4px solid #000; box-shadow: 8px 8px 0 #000; padding: 1.8rem; text-align: center; }
+.avatar-name { font-family: var(--pixel); font-size: 0.55rem; color: #000; letter-spacing: 0.05em; margin-top: 0.8rem; line-height: 1.8; }
+.about-text p { font-size: 0.95rem; line-height: 1.9; color: #b0b0cc; margin-bottom: 1.2rem; }
+.about-text p strong { color: var(--white); }
+.life-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 2rem; }
+.life-stat { background: #0f0f1a; border: 2px solid #2a2a4a; padding: 1.2rem; transition: border-color 0.2s; }
+.life-stat:hover { border-color: var(--coin); }
+.life-val { font-family: var(--pixel); font-size: 1.1rem; color: var(--coin); margin-bottom: 0.4rem; }
+.life-lbl { font-family: var(--pixel); font-size: 0.36rem; color: #5555aa; letter-spacing: 0.1em; }
+
+/* GAME SECTION */
+#game-section { background: #0d0d1a; padding: 5rem 2rem; text-align: center; }
+.game-header { margin-bottom: 2.5rem; }
+.game-container {
+  display: inline-block; position: relative;
+  border: 5px solid var(--coin);
+  box-shadow: 0 0 0 5px #000, 0 0 0 10px var(--coin), 0 0 50px rgba(92,148,252,0.35);
+}
+#gameCanvas { display: block; image-rendering: pixelated; max-width: 100%; }
+.game-controls { margin-top: 1.5rem; }
+.ctrl-hint { font-family: var(--pixel); font-size: 0.38rem; color: #5555aa; letter-spacing: 0.06em; }
+.key {
+  display: inline-block; background: #1a1a2e; border: 2px solid #4444aa;
+  border-bottom: 4px solid #2222aa; padding: 0.2rem 0.45rem;
+  font-size: 0.45rem; color: white; font-family: var(--pixel);
+}
+.dpad { display: none; margin-top: 1.5rem; justify-content: center; gap: 0.5rem; }
+.dpad-btn {
+  width: 54px; height: 54px; background: #1a1a2e;
+  border: 3px solid var(--ground); border-bottom: 5px solid #8b3e00;
+  font-size: 1.1rem; color: white; cursor: pointer;
+  user-select: none; -webkit-user-select: none;
+  display: flex; align-items: center; justify-content: center; touch-action: none;
+}
+.dpad-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+@media (pointer: coarse) { .dpad { display: flex; } }
+
+/* CONTACT */
+#contact { background: #1a1a2e; text-align: center; }
+.contact-inner { max-width: 580px; margin: 0 auto; }
+.contact-inner .section-title { margin-bottom: 1rem; }
+.contact-inner > p { font-size: 0.9rem; line-height: 1.85; color: #8080b0; margin-bottom: 2.5rem; }
+.contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.8rem; }
+.c-link {
+  font-family: var(--pixel); font-size: 0.42rem; letter-spacing: 0.06em;
+  color: var(--white); text-decoration: none; background: #0f0f1a;
+  border: 2px solid #2a2a4a; padding: 0.85rem 1.4rem;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.c-link:hover { border-color: var(--coin); background: #1f1f3a; transform: translateY(-3px); }
+
+/* FOOTER */
+footer { background: #080810; border-top: 3px solid var(--ground); padding: 1.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+footer p { font-family: var(--pixel); font-size: 0.35rem; color: #333355; letter-spacing: 0.1em; }
+
+/* ANIMATIONS */
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes coinAnim { 0% { opacity:1; transform:translateY(0); } 100% { opacity:0; transform:translateY(-60px); } }
+
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 700px) {
+  section { padding: 4rem 1.5rem; }
+  .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  nav { padding: 0 1rem; }
+  .nav-links a { font-size: 0.35rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">★ EASIN.EXE</div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#game-section">▶ PLAY</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hills"></div>
+  <div class="pipe pipe-1"><div class="pipe-head"></div><div class="pipe-body"></div></div>
+  <div class="pipe pipe-2"><div class="pipe-head"></div><div class="pipe-body"></div></div>
+  <div class="block block-1" onclick="popCoin(event)">?</div>
+  <div class="block block-2" onclick="popCoin(event)">?</div>
+  <div class="block block-3" onclick="popCoin(event)">?</div>
+  <div class="mario-hero">
+    <svg width="32" height="48" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated">
+      <rect x="1" y="0" width="5" height="1" fill="#e63946"/>
+      <rect x="0" y="1" width="7" height="1" fill="#e63946"/>
+      <rect x="1" y="2" width="2" height="1" fill="#c8860a"/>
+      <rect x="0" y="3" width="6" height="2" fill="#c8860a"/>
+      <rect x="1" y="5" width="1" height="1" fill="#c8860a"/>
+      <rect x="3" y="5" width="3" height="1" fill="#c8860a"/>
+      <rect x="2" y="3" width="1" height="1" fill="#111"/>
+      <rect x="4" y="3" width="1" height="1" fill="#111"/>
+      <rect x="1" y="6" width="5" height="3" fill="#e63946"/>
+      <rect x="0" y="7" width="7" height="2" fill="#e63946"/>
+      <rect x="1" y="6" width="2" height="2" fill="#5c94fc"/>
+      <rect x="4" y="6" width="2" height="2" fill="#5c94fc"/>
+      <rect x="0" y="7" width="1" height="2" fill="#5c94fc"/>
+      <rect x="6" y="7" width="1" height="2" fill="#5c94fc"/>
+      <rect x="1" y="9" width="2" height="2" fill="#c8860a"/>
+      <rect x="4" y="9" width="2" height="2" fill="#c8860a"/>
+      <rect x="0" y="11" width="3" height="1" fill="#111"/>
+      <rect x="4" y="11" width="3" height="1" fill="#111"/>
+    </svg>
+  </div>
+  <div class="hero-text">
+    <div class="hero-tag">★ PLAYER 1 — READY! ★</div>
+    <h1 class="hero-name"><span>EASIN</span><br>ARAFAT</h1>
+    <p class="hero-sub">FULL-STACK DEVELOPER · UI DESIGNER<br>BASED IN DHAKA, BANGLADESH</p>
+    <a href="#about" class="hero-btn">▶ START GAME</a>
+  </div>
+  <div class="scroll-hint">▼ SCROLL DOWN ▼</div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="avatar-frame">
+        <svg width="120" height="120" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;image-rendering:pixelated">
+          <rect x="6" y="1" width="8" height="1" fill="#222"/>
+          <rect x="5" y="2" width="10" height="1" fill="#8b5e24"/>
+          <rect x="4" y="3" width="12" height="5" fill="#c8860a"/>
+          <rect x="3" y="4" width="2" height="3" fill="#c8860a"/>
+          <rect x="15" y="4" width="2" height="3" fill="#c8860a"/>
+          <rect x="6" y="5" width="2" height="2" fill="#111"/>
+          <rect x="12" y="5" width="2" height="2" fill="#111"/>
+          <rect x="7" y="8" width="6" height="1" fill="#c8860a"/>
+          <rect x="8" y="9" width="4" height="1" fill="#e88"/>
+          <rect x="5" y="10" width="10" height="5" fill="#5c94fc"/>
+          <rect x="3" y="11" width="3" height="4" fill="#5c94fc"/>
+          <rect x="14" y="11" width="3" height="4" fill="#5c94fc"/>
+          <rect x="5" y="15" width="4" height="4" fill="#c8860a"/>
+          <rect x="11" y="15" width="4" height="4" fill="#c8860a"/>
+          <rect x="4" y="18" width="5" height="2" fill="#111"/>
+          <rect x="11" y="18" width="5" height="2" fill="#111"/>
+        </svg>
+        <div class="avatar-name">EASIN ARAFAT<br>LVL 27 · DEVELOPER</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="section-eyebrow">// ABOUT_ME.TXT</p>
+      <h2 class="section-title">HI — I BUILD<br>DIGITAL THINGS!</h2>
+      <div class="about-text">
+        <p>I'm <strong>Easin Arafat</strong>, a <strong>full-stack developer and UI designer</strong> who loves turning ideas into beautiful, functional digital products. I've been doing this for 5+ years and I still get excited every time a project comes together.</p>
+        <p>My superpower is making things feel <strong>simple and intuitive</strong> — whether that's clean code, a smooth UI, or this very page you're reading right now.</p>
+        <p>When I'm not coding you'll find me playing video games (obviously 🎮), reading, or exploring Dhaka for the perfect cup of tea.</p>
+      </div>
+      <div class="life-stats">
+        <div class="life-stat"><div class="life-val">5+</div><div class="life-lbl">YRS EXPERIENCE</div></div>
+        <div class="life-stat"><div class="life-val">40+</div><div class="life-lbl">PROJECTS DONE</div></div>
+        <div class="life-stat"><div class="life-val">∞</div><div class="life-lbl">CUPS OF TEA</div></div>
+        <div class="life-stat"><div class="life-val">3★</div><div class="life-lbl">AWARDS WON</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- GAME SECTION -->
+<section id="game-section">
+  <div class="game-header reveal">
+    <p class="section-eyebrow">// MINI_GAME.EXE</p>
+    <h2 class="section-title">TAKE A BREAK —<br>PLAY MY GAME!</h2>
+  </div>
+  <div class="game-container reveal">
+    <canvas id="gameCanvas" width="640" height="380"></canvas>
+  </div>
+  <div class="game-controls reveal" style="margin-top:1.2rem">
+    <p class="ctrl-hint">
+      <span class="key">← →</span> MOVE &nbsp;&nbsp;
+      <span class="key">SPACE</span> / <span class="key">↑</span> JUMP &nbsp;&nbsp;
+      COLLECT COINS · STOMP GOOMBAS · REACH THE FLAG!
+    </p>
+  </div>
+  <div class="dpad reveal">
+    <button class="dpad-btn" id="btnLeft">◀</button>
+    <button class="dpad-btn" id="btnJump">▲</button>
+    <button class="dpad-btn" id="btnRight">▶</button>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <p class="section-eyebrow">// SEND_MESSAGE.EXE</p>
+    <h2 class="section-title">GAME OVER?<br>LET'S CHAT!</h2>
+    <p>Got a project, a collaboration idea, or just want to say hi? My inbox is open. I reply faster than a 1-UP mushroom drops.</p>
+    <div class="contact-links">
+      <a class="c-link" href="mailto:easinga44@gmail.com">✉ EMAIL ME</a>
+      <a class="c-link" href="#">⟨/⟩ GITHUB</a>
+      <a class="c-link" href="#">in LINKEDIN</a>
+      <a class="c-link" href="#">✦ TWITTER</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 EASIN ARAFAT — ALL RIGHTS RESERVED</p>
+  <p>MADE WITH ♥ AND TOO MUCH TEA</p>
+</footer>
+
+<script>
+// ── COIN POP ──
+function popCoin(e) {
+  const pop = document.createElement('div');
+  pop.className = 'coin-pop';
+  pop.textContent = '+100';
+  pop.style.left = e.clientX + 'px';
+  pop.style.top  = (e.clientY + window.scrollY - 20) + 'px';
+  document.body.appendChild(pop);
+  setTimeout(() => pop.remove(), 900);
+}
+
+// ── REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ═══════════════════════════════════════════
+//  MARIO PLATFORMER GAME
+// ═══════════════════════════════════════════
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+const W = 640, H = 380;
+const GRAVITY = 0.52, JUMP_VEL = -12.5, MOVE_SPD = 3.4;
+const WORLD_W = 3200;
+
+let gameState = 'start'; // start | playing | dead | win
+let score = 0, lives = 3, highScore = 0;
+let frame = 0;
+let camX = 0;
+
+// ── PLAYER ──
+const P = {
+  x:80, y:0, w:26, h:34,
+  vx:0, vy:0, onGround:false,
+  dir:1, frame:0, ft:0, invincible:0
+};
+
+function resetPlayer() {
+  Object.assign(P, { x:80, y:50, vx:0, vy:0, onGround:false, dir:1, frame:0, ft:0, invincible:0 });
+  camX = 0;
+}
+
+// ── PLATFORMS ──
+function buildWorld() {
+  const pl = [];
+  // Ground with a pit
+  for (let x=0; x<2600; x+=64) pl.push({x, y:H-44, w:64, h:44, t:'g'});
+  for (let x=2750; x<WORLD_W; x+=64) pl.push({x, y:H-44, w:64, h:44, t:'g'});
+  // Floating
+  const fps=[
+    {x:190,y:270,w:90},{x:370,y:235,w:80},{x:530,y:295,w:70},
+    {x:680,y:220,w:85},{x:850,y:260,w:80},{x:1020,y:200,w:70},
+    {x:1180,y:275,w:90},{x:1360,y:230,w:80},{x:1530,y:195,w:85},
+    {x:1720,y:260,w:80},{x:1890,y:225,w:70},{x:2060,y:200,w:90},
+    {x:2260,y:260,w:80},{x:2450,y:220,w:85},
+    // Bridge over pit
+    {x:2620,y:H-44,w:80,h:44},{x:2700,y:250,w:80},{x:2800,y:210,w:80},
+    // Castle approach
+    {x:2920,y:260,w:80},{x:3060,y:210,w:80},{x:3160,y:260,w:80},
+  ];
+  fps.forEach(p=>pl.push({x:p.x,y:p.y,w:p.w||80,h:16,t:'p'}));
+  return pl;
+}
+
+function buildCoins(platforms) {
+  const coins=[];
+  platforms.filter(p=>p.t==='p').forEach(p=>{
+    for(let cx=p.x+8;cx<p.x+p.w-8;cx+=22)
+      coins.push({x:cx,y:p.y-22,collected:false});
+  });
+  for(let x=120;x<2500;x+=160) coins.push({x,y:H-80,collected:false});
+  return coins;
+}
+
+function buildEnemies() {
+  const enemies=[];
+  const xs=[320,580,830,1100,1370,1640,1900,2150,2430,2950,3100];
+  xs.forEach((x,i)=>enemies.push({
+    x,y:H-44-26,w:26,h:26,vx:(i%2?1:-1)*1.1,
+    startX:x,range:110,deadTimer:0,gone:false,animF:0
+  }));
+  return enemies;
+}
+
+let platforms, coins, enemies;
+
+function initGame() {
+  platforms=buildWorld();
+  coins=buildCoins(platforms);
+  enemies=buildEnemies();
+  resetPlayer();
+  score=0; lives=3; gameState='playing';
+}
+
+// ── INPUT ──
+const keys={};
+document.addEventListener('keydown',e=>{
+  keys[e.code]=true;
+  if(['Space','ArrowUp','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();
+  if(['start','dead','win'].includes(gameState)&&(e.code==='Space'||e.code==='Enter')){
+    if(gameState==='win') highScore=Math.max(highScore,score);
+    initGame();
+  }
+});
+document.addEventListener('keyup',e=>{keys[e.code]=false;});
+
+const btnL=document.getElementById('btnLeft');
+const btnR=document.getElementById('btnRight');
+const btnJ=document.getElementById('btnJump');
+['touchstart','mousedown'].forEach(ev=>{
+  btnL.addEventListener(ev,e=>{e.preventDefault();keys['ArrowLeft']=true;},{passive:false});
+  btnR.addEventListener(ev,e=>{e.preventDefault();keys['ArrowRight']=true;},{passive:false});
+  btnJ.addEventListener(ev,e=>{e.preventDefault();keys['Space']=true;},{passive:false});
+});
+['touchend','mouseup'].forEach(ev=>{
+  btnL.addEventListener(ev,e=>{e.preventDefault();keys['ArrowLeft']=false;},{passive:false});
+  btnR.addEventListener(ev,e=>{e.preventDefault();keys['ArrowRight']=false;},{passive:false});
+  btnJ.addEventListener(ev,e=>{e.preventDefault();keys['Space']=false;},{passive:false});
+});
+
+// ── PHYSICS ──
+function rectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
+
+function update(){
+  if(gameState!=='playing')return;
+
+  // Move
+  const goL=keys['ArrowLeft']||keys['KeyA'];
+  const goR=keys['ArrowRight']||keys['KeyD'];
+  const doJ=keys['Space']||keys['ArrowUp']||keys['KeyW'];
+
+  if(goL){P.vx=-MOVE_SPD;P.dir=-1;}
+  else if(goR){P.vx=MOVE_SPD;P.dir=1;}
+  else P.vx*=0.65;
+
+  if(doJ&&P.onGround){P.vy=JUMP_VEL;P.onGround=false;}
+
+  P.vy+=GRAVITY;
+  P.x=Math.max(0,Math.min(WORLD_W-P.w,P.x+P.vx));
+  P.y+=P.vy;
+
+  // Platform collision
+  P.onGround=false;
+  platforms.forEach(pl=>{
+    if(!rectHit(P,pl))return;
+    const ox=Math.min(P.x+P.w,pl.x+pl.w)-Math.max(P.x,pl.x);
+    const oy=Math.min(P.y+P.h,pl.y+pl.h)-Math.max(P.y,pl.y);
+    if(oy<ox){
+      if(P.y+P.h/2<pl.y+pl.h/2){P.y=pl.y-P.h;P.vy=0;P.onGround=true;}
+      else{P.y=pl.y+pl.h;P.vy=0;}
+    }else{
+      P.x=P.x<pl.x?pl.x-P.w:pl.x+pl.w; P.vx=0;
+    }
+  });
+
+  if(P.y>H+60){
+    lives--;
+    if(lives<=0){gameState='dead';highScore=Math.max(highScore,score);}
+    else resetPlayer();
+    return;
+  }
+
+  // Coins
+  coins.forEach(c=>{
+    if(c.collected)return;
+    if(Math.hypot(P.x+P.w/2-c.x,P.y+P.h/2-c.y)<18){c.collected=true;score+=100;}
+  });
+
+  // Enemies
+  if(P.invincible>0)P.invincible--;
+  enemies.forEach(e=>{
+    if(e.gone)return;
+    if(e.deadTimer>0){e.deadTimer--;if(e.deadTimer<=0)e.gone=true;return;}
+    e.x+=e.vx;
+    if(Math.abs(e.x-e.startX)>e.range)e.vx*=-1;
+    e.animF=Math.floor(frame/18)%2;
+    if(rectHit(P,e)&&P.invincible===0){
+      if(P.vy>0&&P.y+P.h<e.y+e.h*0.55){
+        e.deadTimer=28;P.vy=-8;score+=200;
+      }else{
+        lives--;P.invincible=90;
+        if(lives<=0)gameState='dead';
+      }
+    }
+  });
+
+  // Win flag
+  const flagPole={x:WORLD_W-130,y:H-44-190,w:14,h:190};
+  if(rectHit(P,flagPole)){score+=1000;gameState='win';highScore=Math.max(highScore,score);}
+
+  // Camera
+  camX+=(P.x-W*0.35-camX)*0.13;
+  camX=Math.max(0,Math.min(WORLD_W-W,camX));
+
+  // Player anim
+  if(++P.ft>7){P.frame=(P.frame+1)%4;P.ft=0;}
+}
+
+// ── DRAW HELPERS ──
+const f=(x,w)=>Math.round(x-camX);
+function pr(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x-camX),Math.round(y),w,h);}
+
+function drawBG(){
+  const g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#3060c8');g.addColorStop(1,'#80b4ff');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // clouds
+  ctx.fillStyle='rgba(255,255,255,0.88)';
+  [{bx:180,y:52,w:88},{bx:520,y:70,w:68},{bx:860,y:48,w:80},
+   {bx:1300,y:65,w:72},{bx:1700,y:50,w:88},{bx:2100,y:68,w:76},
+   {bx:2500,y:52,w:84},{bx:2900,y:62,w:72}].forEach(c=>{
+    const cx=c.bx-camX*0.28;
+    ctx.fillRect(cx,c.y,c.w,c.h*0.55);
+    ctx.fillRect(cx+c.w*0.1,c.y-c.h*0.35,c.w*0.8,c.h*0.45);
+  });
+  // hills
+  ctx.fillStyle='#4090d8';
+  [80,280,520,760,1080,1420,1800,2200,2700].forEach(mx=>{
+    const bx=mx-camX*0.45;
+    ctx.beginPath();ctx.moveTo(bx,H-44);ctx.lineTo(bx+75,H-125);ctx.lineTo(bx+150,H-44);ctx.fill();
+  });
+}
+
+function drawPlatforms(){
+  platforms.forEach(pl=>{
+    const px=pl.x-camX;
+    if(px+pl.w<0||px>W)return;
+    if(pl.t==='g'){
+      ctx.fillStyle='#4caf50';ctx.fillRect(px,pl.y,pl.w,7);
+      ctx.fillStyle='#7b4f2e';ctx.fillRect(px,pl.y+7,pl.w,pl.h-7);
+      for(let i=0;i<pl.w;i+=16){ctx.fillStyle='#6a3e1e';ctx.fillRect(px+i+3,pl.y+14,7,6);}
+    }else{
+      ctx.fillStyle='#c8860a';ctx.fillRect(px,pl.y,pl.w,pl.h);
+      ctx.fillStyle='#e8a030';ctx.fillRect(px,pl.y,pl.w,4);
+      ctx.fillStyle='#8b5e00';ctx.fillRect(px,pl.y+pl.h-4,pl.w,4);
+    }
+  });
+}
+
+function drawCoins(){
+  coins.forEach(c=>{
+    if(c.collected)return;
+    const cx=c.x-camX;
+    if(cx<-20||cx>W+20)return;
+    const bob=Math.sin(frame*0.12+c.x*0.01)*2;
+    ctx.fillStyle='#ffd700';
+    ctx.beginPath();ctx.arc(cx,c.y+bob,7,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#ffec70';
+    ctx.beginPath();ctx.arc(cx-2,c.y+bob-2,2.5,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#c8a000';ctx.lineWidth=1.5;ctx.stroke();
+  });
+}
+
+function drawEnemies(){
+  enemies.forEach(e=>{
+    if(e.gone)return;
+    const ex=e.x-camX;
+    if(ex<-40||ex>W+40)return;
+    if(e.deadTimer>0){
+      ctx.fillStyle='#8b4000';ctx.fillRect(ex,e.y+e.h-9,e.w,9);return;
+    }
+    ctx.fillStyle='#8b4000';ctx.fillRect(ex,e.y+4,e.w,e.h-4);
+    ctx.fillStyle='#5a2800';ctx.fillRect(ex+4,e.y,e.w-8,8);
+    ctx.fillStyle='white';
+    ctx.fillRect(ex+4,e.y+6,5,5);ctx.fillRect(ex+e.w-9,e.y+6,5,5);
+    ctx.fillStyle='#111';
+    ctx.fillRect(ex+5,e.y+7,3,3);ctx.fillRect(ex+e.w-8,e.y+7,3,3);
+    const fo=e.animF?3:0;
+    ctx.fillStyle='#5a2800';
+    ctx.fillRect(ex+1,e.y+e.h-8,9,8);
+    ctx.fillRect(ex+e.w-10,e.y+e.h-8+fo,9,8);
+  });
+}
+
+function drawPlayer(){
+  if(P.invincible>0&&Math.floor(P.invincible/4)%2)return;
+  const px=P.x-camX, py=P.y;
+  ctx.save();
+  if(P.dir<0){ctx.translate(px+P.w,py);ctx.scale(-1,1);ctx.translate(-P.w,0);}
+  else ctx.translate(px,py);
+  const ls=P.onGround&&Math.abs(P.vx)>0.5?Math.floor(frame/8)%2*4:0;
+  // Hat
+  ctx.fillStyle='#e63946';ctx.fillRect(3,0,20,4);ctx.fillRect(0,4,26,4);
+  // Face
+  ctx.fillStyle='#c8860a';ctx.fillRect(1,8,24,9);
+  // Eyes
+  ctx.fillStyle='#111';ctx.fillRect(5,10,5,4);ctx.fillRect(16,10,5,4);
+  // Mustache
+  ctx.fillStyle='#5a2800';ctx.fillRect(2,16,9,3);ctx.fillRect(14,16,9,3);
+  // Body
+  ctx.fillStyle='#e63946';ctx.fillRect(1,19,24,9);
+  // Overalls
+  ctx.fillStyle='#5c94fc';ctx.fillRect(1,20,9,8);ctx.fillRect(16,20,9,8);
+  ctx.fillRect(0,22,2,6);ctx.fillRect(24,22,2,6);
+  // Legs
+  ctx.fillStyle='#c8860a';
+  ctx.fillRect(1,28,9,5-ls);ctx.fillRect(16,28,9,5+ls);
+  // Shoes
+  ctx.fillStyle='#111';
+  ctx.fillRect(0,33-ls,12,4);ctx.fillRect(14,33+ls,12,4);
+  ctx.restore();
+}
+
+function drawFlag(){
+  const fx=WORLD_W-130-camX, fy=H-44-185;
+  // Pole
+  ctx.fillStyle='#ccc';ctx.fillRect(fx+5,fy,4,185);
+  // Flag
+  ctx.fillStyle='#e63946';ctx.fillRect(fx+9,fy,26,16);
+  ctx.fillStyle='#fff';ctx.fillRect(fx+12,fy+3,6,4);
+  // Castle
+  const cy=H-44-75;
+  ctx.fillStyle='#aaaaaa';ctx.fillRect(fx-22,cy,75,75);
+  ctx.fillStyle='#888';ctx.fillRect(fx-22,cy,75,10);
+  for(let i=0;i<5;i++){if(i%2===0){ctx.fillStyle='#aaa';ctx.fillRect(fx-22+i*15,cy-10,12,12);}}
+  ctx.fillStyle='#555';ctx.fillRect(fx+2,cy+35,20,40);
+}
+
+function drawHUD(){
+  ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,34);
+  ctx.font='10px "Press Start 2P"';
+  ctx.fillStyle='#ffd700';ctx.fillText('★ '+score,14,22);
+  ctx.fillStyle='white';ctx.fillText('❤ '+lives,W/2-28,22);
+  if(highScore>0){ctx.fillStyle='#80b4ff';ctx.fillText('BEST '+highScore,W-158,22);}
+}
+
+function drawOverlay(title,sub,hint,col){
+  ctx.fillStyle='rgba(0,0,0,0.72)';ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle=col;ctx.font='18px "Press Start 2P"';ctx.fillText(title,W/2,H/2-45);
+  ctx.fillStyle='#ffd700';ctx.font='11px "Press Start 2P"';ctx.fillText('SCORE: '+score,W/2,H/2);
+  ctx.fillStyle='white';ctx.font='8px "Press Start 2P"';ctx.fillText(sub,W/2,H/2+28);
+  ctx.fillStyle=Math.floor(frame/18)%2?'white':'rgba(0,0,0,0)';
+  ctx.fillText(hint,W/2,H/2+54);
+  ctx.textAlign='left';
+}
+
+function drawStartScreen(){
+  drawBG();
+  ctx.fillStyle='rgba(0,0,0,0.65)';ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='#ffd700';ctx.font='16px "Press Start 2P"';ctx.fillText('★ ALEX\'S WORLD ★',W/2,H/2-55);
+  ctx.fillStyle='white';ctx.font='7.5px "Press Start 2P"';
+  ctx.fillText('COLLECT COINS  ·  STOMP GOOMBAS',W/2,H/2-16);
+  ctx.fillText('REACH THE CASTLE FLAG TO WIN!',W/2,H/2+8);
+  ctx.fillStyle=Math.floor(frame/18)%2?'#ffd700':'rgba(0,0,0,0)';
+  ctx.font='9px "Press Start 2P"';ctx.fillText('PRESS SPACE TO START',W/2,H/2+56);
+  ctx.textAlign='left';
+}
+
+function render(){
+  ctx.clearRect(0,0,W,H);
+  if(gameState==='start'){drawStartScreen();return;}
+  drawBG();drawPlatforms();drawFlag();drawCoins();drawEnemies();drawPlayer();drawHUD();
+  if(gameState==='dead') drawOverlay('GAME OVER','YOU LOST ALL LIVES','PRESS SPACE TO RETRY','#e63946');
+  if(gameState==='win')  drawOverlay('YOU WIN! ★','CASTLE REACHED!','PRESS SPACE TO PLAY AGAIN','#ffd700');
+}
+
+(function loop(){
+  update();render();frame++;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
